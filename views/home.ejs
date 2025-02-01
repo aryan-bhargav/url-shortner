@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+
+    <style>
+        h1 {
+            text-align: center;
+            font-family: Arial, sans-serif;
+            color: #333;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            /* Space between elements */
+            margin-top: 20px;
+        }
+
+        input[type="text"] {
+            width: 50%;
+            /* Input field width */
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #121212;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #121212;
+        }
+
+        table {
+            width: 80%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            font-family: Arial, sans-serif;
+            font-size: 16px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            /* Add shadow */
+        }
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            /* Light gray border */
+            padding: 12px 15px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #121212;
+            /* Header background color */
+            color: white;
+            /* Header text color */
+            font-weight: bold;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+            /* Alternate row colors */
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+            /* Hover effect for rows */
+        }
+
+        td {
+            color: #333;
+            /* Table data text color */
+        }
+    </style>
+</head>
+
+<body>
+    <h1>URL Shortener</h1>
+
+    <% if (locals.id) { %>
+        <p>
+            URL GENERATED : http://localhost:8001/url/<%= id %>
+        </p>
+        <% } %>
+            <div class="container">
+                <!-- Input Section -->
+                <form method="POST" action="/url">
+                    <input type="text" placeholder="Enter URL" name="URLDATABASE">
+                    <button type="submit">Shorten URL</button>
+                </form>
+
+                <!-- Table Section -->
+                <div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>S.No</th>
+                                <th>Short URLs</th>
+                                <th>Redirect URLs</th>
+                                <th>Clicks</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% if (urlQuery && urlQuery.length> 0) { %>
+                                <% urlQuery.forEach((url, index)=> { %>
+                                    <tr>
+                                        <td>
+                                            <%= index + 1 %>
+                                        </td>
+                                        <td>
+                                            <%= url.shortId %>
+                                        </td>
+                                        <td>
+                                            <%= url.redirectUrl %>
+                                        </td>
+                                        <td>
+                                            <%= url.visitHistory.length %>
+                                        </td>
+                                    </tr>
+                                    <% }); %>
+                                        <% } else { %>
+                                            <tr>
+                                                <td colspan="4">No URLs available. Please generate one!</td>
+                                            </tr>
+                                            <% } %>
+                        </tbody>
+
+                    </table>
+                </div>
+            </div>
+</body>
+
+</html>
